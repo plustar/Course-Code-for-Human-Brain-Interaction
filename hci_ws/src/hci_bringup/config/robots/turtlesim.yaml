@@ -1,0 +1,9 @@
+# turtlesim：所有同学都能跑，WSL2 也流畅。turtlesim 的单位就是"米"（窗口约 11 m × 11 m）
+# 速度可以比真机大一些，演示更快
+/**/behavior_node:
+  ros__parameters:
+    cmd_vel_type: twist       # turtlesim 订阅的是 geometry_msgs/Twist
+    max_speed: 1.0
+    min_speed: 0.2
+    max_turn_rate: 1.5
+    kp_turn: 3.0

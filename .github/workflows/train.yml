@@ -1,0 +1,63 @@
+# 每周一次（也可以在 Actions 页面手动运行）：按 env/setup_conda.sh 创建训练环境，
+# 运行 bash tools/run_tests.sh train（感知核心与练习 3 的单元测试，加训练冒烟）。
+# 训练环境要下载 PyTorch 等约 3 GB 的包，所以不在每次提交时运行。
+# 公开仓库 60 天没有提交时，GitHub 会停用定时运行：到 Actions 页面重新启用（见 docs/MAINTAINING.md）。
+name: train
+
+on:
+  schedule:
+    - cron: '17 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read  # 只读取代码
+
+concurrency:
+  group: train-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  train:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false  # 后面的步骤用不到 git 的凭据，不留在磁盘上
+
+      - name: 创建训练环境（bash env/setup_conda.sh）
+        run: bash env/setup_conda.sh
+
+      - name: 再运行一次（学生常这样做）：已经建好的环境不重新下载
+        run: bash env/setup_conda.sh
+
+      - name: 下载 SFace 模型
+        run: bash tools/download_models.sh
+
+      - name: 检查环境并运行测试（check_env.sh train、run_tests.sh train，与 README 第 4.4、10 节相同）
+        run: |
+          # 与学生的终端一样：~/.bashrc 已经 source 了 ROS（这台机器没装 ROS，只设置同样的变量），
+          # 激活训练环境时应当自动去掉它们
+          export AMENT_PREFIX_PATH=/opt/ros/lyrical
+          export PYTHONPATH=/opt/ros/lyrical/lib/python3.14/site-packages
+          conda="$HOME/miniforge3/bin/conda"
+          [ -x "$conda" ] || conda="$(command -v conda)"
+          eval "$("$conda" shell.bash hook)"
+          conda activate hci-train
+          bash env/check_env.sh train
+          bash tools/run_tests.sh train
+
+      - name: 列出重跑过或崩溃过的测试组
+        if: always()
+        run: |
+          for f in hci_ws/log/run_tests/latest/retried.txt hci_ws/log/run_tests/latest/crashed.txt; do
+            if [ -s "$f" ]; then sed "s/^/::warning title=$(basename "$f")::/" "$f"; fi
+          done
+
+      - name: 保存测试结果
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: train-test-results
+          path: hci_ws/log/run_tests/
+          if-no-files-found: ignore

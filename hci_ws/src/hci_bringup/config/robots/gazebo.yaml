@@ -1,0 +1,14 @@
+# Gazebo（Jetty）中的差速小车。默认对接 TurtleBot 3 仿真（Lyrical 有 apt 包）：
+#   sudo apt install ros-lyrical-turtlebot3-gazebo
+#   export TURTLEBOT3_MODEL=burger                      # burger 没有相机；用 camera:=robot 时选 waffle
+#   ros2 launch turtlebot3_gazebo empty_world.launch.py  # 先在另一个终端启动仿真
+# 也可以用 ros_gz 的差速小车演示（ros2 launch ros_gz_sim_demos diff_drive.launch.xml），
+# 它的速度话题是 /model/vehicle_blue/cmd_vel：启动时加 cmd_vel_topic:=/model/vehicle_blue/cmd_vel
+/**/behavior_node:
+  ros__parameters:
+    cmd_vel_type: auto        # 按仿真桥接实际订阅的类型（Twist 或 TwistStamped）发布
+    frame_id: base_link
+    max_speed: 0.2            # 接近人时研究建议约 0.2 m/s
+    min_speed: 0.05
+    max_turn_rate: 0.6
+    kp_turn: 2.0

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>hci_bringup</name>
+  <version>1.0.0</version>
+  <description>人机交互工程课程的启动与配置：感知与整个系统的 launch 文件、各节点与各平台的参数、仿真世界</description>
+  <maintainer email="hci-course@example.com">HCI Course</maintainer>
+  <license>AGPL-3.0-only</license>
+
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>hci_behavior</exec_depend>
+  <exec_depend>hci_common</exec_depend>
+  <exec_depend>hci_perception</exec_depend>
+  <exec_depend>hci_sim</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ros2bag</exec_depend>
+  <exec_depend>turtlesim</exec_depend>
+
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_mypy</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>ament_xmllint</test_depend>
+  <test_depend>geometry_msgs</test_depend>
+  <test_depend>hci_interfaces</test_depend>
+  <test_depend>launch_testing</test_depend>
+  <test_depend>launch_testing_ros</test_depend>
+  <test_depend>python3-numpy</test_depend>
+  <test_depend>python3-opencv</test_depend>
+  <test_depend>python3-pytest</test_depend>
+  <test_depend>python3-yaml</test_depend>
+  <test_depend>rclpy</test_depend>
+  <test_depend>sensor_msgs</test_depend>
+  <test_depend>std_msgs</test_depend>
+  <test_depend>std_srvs</test_depend>
+  <test_depend>turtlesim_msgs</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

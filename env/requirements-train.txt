@@ -1,0 +1,14 @@
+# 训练环境（conda 环境 hci-train）里的 Python 包，只用于练习 3：训练、评估、导出 YOLO。
+# PyTorch 由 setup_conda.sh 单独安装（默认 CPU 版，--cuda 装 GPU 版），这里不写。
+# ROS 节点不使用这个环境：它们运行在系统 Python 里，依赖用 apt 安装（见 setup_ros_env.sh）。
+ultralytics>=8.4,<8.5    # YOLO26 / YOLO11 的训练、验证、导出；锁定在实测过的 8.4.x
+onnx>=1.23,<1.24         # 导出 ONNX；锁定在实测过的 1.23.x
+onnxslim>=0.1.82,<0.2    # 导出时精简模型（Ultralytics 8.4 要求 0.1.82 以上）；锁定在实测过的 0.1.x
+onnxruntime>=1.30,<1.31  # 在训练环境里验证导出的 ONNX；锁定在实测过的 1.30.x
+opencv-python>=4.10,<5   # 摄像头录制、显示窗口（带图形界面）；与 ROS 环境的 OpenCV 4.10 保持同一大版本
+pillow                   # 画中文标签
+pyyaml
+pytest                   # 测试：bash tools/run_tests.sh train
+pytest-timeout
+pytest-cov
+hypothesis

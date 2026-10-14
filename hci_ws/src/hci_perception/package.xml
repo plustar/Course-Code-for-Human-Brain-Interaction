@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>hci_perception</name>
+  <version>1.0.0</version>
+  <description>人机交互工程课程的感知包：摄像头、人脸识别（YOLO / YuNet / 两步法）与显示</description>
+  <maintainer email="hci-course@example.com">HCI Course</maintainer>
+  <license>AGPL-3.0-only</license>
+
+  <exec_depend>hci_common</exec_depend>
+  <exec_depend>hci_interfaces</exec_depend>
+  <exec_depend>message_filters</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-pil</exec_depend>
+  <!-- ONNX Runtime：sudo apt install python3-onnxruntime（rosdep 暂无对应的键，见 env/setup_ros_env.sh） -->
+
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_mypy</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>ament_xmllint</test_depend>
+  <test_depend>python3-hypothesis</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

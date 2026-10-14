@@ -1,0 +1,37 @@
+{
+  // 默认用系统 Python（ROS 环境）。练习 3 的脚本要在训练环境里运行时，
+  // 点窗口右下角的 Python 版本，切换到 hci-train
+  "python.defaultInterpreterPath": "/usr/bin/python3",
+
+  // 一个终端只用一个环境（README 第 4.1 节）：不让 VS Code 在新开的终端里自动激活 conda。
+  // 要用训练环境时，自己在终端里执行 conda activate hci-train
+  "python.terminal.activateEnvironment": false,
+  "python-envs.terminal.autoActivationType": "off",
+
+  // 让编辑器认识 rclpy、消息和本仓库的包（只影响代码补全与跳转，不影响运行）
+  "python.analysis.extraPaths": [
+    "/opt/ros/lyrical/lib/python3.14/site-packages",
+    "hci_ws/install/hci_interfaces/lib/python3.14/site-packages",
+    "hci_ws/src/hci_common",
+    "hci_ws/src/hci_perception",
+    "hci_ws/src/hci_behavior",
+    "hci_ws/src/hci_sim",
+    "hci_ws/src/hci_bringup",
+    "exercises/face_recognition"
+  ],
+
+  // 编译产物和个人数据很多：不监视、不搜索
+  "files.watcherExclude": {
+    "**/hci_ws/build/**": true,
+    "**/hci_ws/install/**": true,
+    "**/hci_ws/log/**": true,
+    "**/exercises/face_recognition/data/**": true,
+    "**/exercises/face_recognition/dataset/**": true,
+    "**/exercises/face_recognition/runs/**": true
+  },
+  "search.exclude": {
+    "hci_ws/build": true,
+    "hci_ws/install": true,
+    "hci_ws/log": true
+  }
+}

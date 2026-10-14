@@ -1,0 +1,18 @@
+# 行为参数：所有机器人平台共用。单位：米、弧度、秒；名字带 _deg 的是度
+# 各平台不同的部分（速度、消息类型）在 robots/<平台>.yaml，后加载，会覆盖这里的同名参数
+/**/behavior_node:
+  ros__parameters:
+    target_class: ""          # 留空 = 任何 stu_ 开头的类别都算本人；也可以写死 "stu_2023123456"
+    min_confidence: 0.5
+    confirm_window: 5         # 防抖：最近 5 帧中
+    confirm_min: 3            #       至少 3 帧看到本人才确认
+    smoothing: 0.5
+    align_tolerance_deg: 8.0  # 方位误差小于 8° 算已对准（前进中放宽到 16°）
+    greet_distance: 1.0       # 停在 1.0 m 处问候（研究建议 0.8–1.0 m）
+    greet_hysteresis: 0.2     # 问候后人退开 0.2 m 以上才重新靠近
+    min_distance: 0.5         # 安全：最近不小于 0.5 m
+    watchdog_timeout: 0.5     # 安全：0.5 秒没收到检测结果就停车
+    search_turn_rate: 0.0     # 大于 0 时，没看到本人会原地慢转寻找
+    stop_on_other: true
+    control_rate: 10.0
+    greeting_template: "你好，{name}！"

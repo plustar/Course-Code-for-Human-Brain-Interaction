@@ -1,0 +1,12 @@
+# TurtleBot 4 真机（课件案例："换一份参数就能换平台"）
+# 注意：TurtleBot 4 的软件是 ROS 2 Jazzy，学生电脑是 Lyrical，不同发行版不保证能通信；
+#       要连真机需要一台装 Jazzy 的电脑。相机预览图 /oakd/rgb/preview/image_raw 只有 250×250。
+#   ros2 launch hci_bringup system.launch.py robot:=turtlebot4 camera:=robot model:=/绝对路径/best.onnx
+/**/behavior_node:
+  ros__parameters:
+    cmd_vel_type: stamped     # Jazzy 下 TurtleBot 4 的 /cmd_vel 是 TwistStamped
+    frame_id: base_link
+    max_speed: 0.2            # 机器人自身限速 0.306 m/s
+    min_speed: 0.05
+    max_turn_rate: 0.6
+    kp_turn: 1.5

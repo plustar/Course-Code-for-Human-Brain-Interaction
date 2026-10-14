@@ -1,0 +1,73 @@
+# 推送到 main 和每个 Pull Request：在 GitHub 的 Ubuntu 26.04 机器上，按学生的安装步骤（README
+# 第 4 节）装好 ROS 2 Lyrical 和课程依赖，再运行 bash tools/run_tests.sh（L0 静态检查到 L3 系统测试）。
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read  # 只读取代码
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ros:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false  # 后面的步骤用不到 git 的凭据，不留在磁盘上
+
+      - name: 安装 ROS 2 Lyrical（与 README 第 4.2 节逐行相同，tests/test_docs.py 会核对）
+        run: |
+          sudo apt update && sudo apt install -y software-properties-common curl
+          sudo add-apt-repository -y universe
+          # 与 README 逐行相同。取不到版本号时 export 本身不报错，但下一个 curl -f 会失败，这一步照样停下
+          # shellcheck disable=SC2155
+          export ROS_APT_SOURCE_VERSION=$(curl -fsSL -o /dev/null -w '%{url_effective}' https://github.com/ros-infrastructure/ros-apt-source/releases/latest | sed 's#.*/##')
+          echo "ros2-apt-source $ROS_APT_SOURCE_VERSION"
+          curl -fL -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"
+          sudo dpkg -i /tmp/ros2-apt-source.deb
+          sudo apt update
+          sudo apt install -y ros-lyrical-desktop ros-dev-tools build-essential
+
+      - name: 安装课程依赖（bash env/setup_ros_env.sh --bashrc，与 README 第 4.3 节相同）
+        run: bash env/setup_ros_env.sh --bashrc
+
+      - name: 再运行一次（学生常这样做）：不重复安装，~/.bashrc 里只有一份
+        run: |
+          bash env/setup_ros_env.sh --bashrc
+          test "$(grep -c '^# >>> hci-course-code >>>' ~/.bashrc)" = 1
+
+      - name: 下载 SFace 模型（两步法的测试要用）
+        run: bash tools/download_models.sh
+
+      - name: 运行测试（bash tools/run_tests.sh，它会先编译工作空间）
+        run: bash tools/run_tests.sh
+
+      - name: 检查环境（bash env/check_env.sh，与 README 第 4.3 节相同）
+        run: |
+          source /opt/ros/lyrical/setup.bash
+          source hci_ws/install/setup.bash
+          bash env/check_env.sh
+
+      - name: 列出重跑过或崩溃过的测试组（偶发问题的线索，测试通过时也看一眼）
+        if: always()
+        run: |
+          for f in hci_ws/log/run_tests/latest/retried.txt hci_ws/log/run_tests/latest/crashed.txt; do
+            if [ -s "$f" ]; then sed "s/^/::warning title=$(basename "$f")::/" "$f"; fi
+          done
+
+      - name: 保存测试结果与节点日志
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: hci_ws/log/run_tests/
+          if-no-files-found: ignore

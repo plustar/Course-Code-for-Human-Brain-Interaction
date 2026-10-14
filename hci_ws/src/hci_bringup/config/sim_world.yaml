@@ -1,0 +1,14 @@
+# 仿真世界里的虚拟人（turtlesim 坐标：原点在窗口左下角，x 向右、y 向上，单位米）
+# 机器人 turtle1 出生在 (5.54, 5.54)，朝右；虚拟相机的水平视场是 60°（左右各 30°）。
+# 两个人都在机器人前方约 2.2 m、左右各约 22° 处，一开机就在画面里。
+# image：stranger = 内置的公有领域照片；me = 启动参数 me_image 指定的照片（没给时不出现）
+# 可选：walk（沿 y 方向来回走动的幅度，米）、period（走一个来回的秒数）、face_height（人脸高度，米）
+persons:
+  - name: stranger
+    image: stranger
+    x: 7.6
+    y: 4.7
+  - name: me
+    image: me
+    x: 7.6
+    y: 6.4

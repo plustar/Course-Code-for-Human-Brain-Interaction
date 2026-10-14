@@ -1,0 +1,9 @@
+# 统一用 LF 换行。在 Windows 上 git clone 时，git 默认把换行转成 CRLF，脚本在 Ubuntu 里
+# 就会报 "set: -: invalid option" 之类的错误；有了这一行，无论怎样设置都按 LF 检出
+* text=auto eol=lf
+
+# 二进制文件原样保存
+*.onnx binary
+*.jpg binary
+*.png binary
+*.pdf binary

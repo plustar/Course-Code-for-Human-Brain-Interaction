@@ -1,0 +1,7 @@
+{
+  // 打开仓库时 VS Code 会提示安装这些扩展。用 WSL2 时，Windows 这边还要装"WSL"扩展
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.vscode-pylance"
+  ]
+}

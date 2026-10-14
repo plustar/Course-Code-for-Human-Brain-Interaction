@@ -1,0 +1,67 @@
+# ===== 个人数据：人脸照片、视频、标注、特征、训练出的权重 —— 一律不上传 =====
+exercises/face_recognition/data/
+exercises/face_recognition/dataset/
+exercises/face_recognition/runs/
+exercises/face_recognition/test/
+exercises/face_recognition/out/
+# 扩展名不分大小写：手机和 Windows 常存成 IMG_0001.JPG、VID_0001.MOV、.HEIC
+*.[jJ][pP][gG]
+*.[jJ][pP][eE][gG]
+*.[pP][nN][gG]
+*.[hH][eE][iI][cC]
+*.[hH][eE][iI][fF]
+*.[wW][eE][bB][pP]
+*.[bB][mM][pP]
+*.[tT][iI][fF]
+*.[tT][iI][fF][fF]
+*.[gG][iI][fF]
+*.[aA][vV][iI][fF]
+*.[mM][pP]4
+*.3[gG][pP]
+*.[mM]4[vV]
+*.[aA][vV][iI]
+*.[mM][oO][vV]
+*.[mM][kK][vV]
+*.[wW][mM][vV]
+*.[wW][eE][bB][mM]
+*.[nN][pP][yY]
+*.[pP][tT]
+*.[pP][tT][hH]
+*.[oO][nN][nN][xX]
+# 压缩包：常用来打包照片或数据集
+*.[zZ][iI][pP]
+*.7[zZ]
+*.[rR][aA][rR]
+*.[tT][aA][rR]
+*.[tT][gG][zZ]
+*.[gG][zZ]
+# 录包（默认存到仓库外的 ~/hci_bags；万一录到了仓库里也不会被提交）
+rosbag2_*/
+*.mcap
+*.db3
+# 例外：随仓库发布的两个文件（许可见 README 第 13 节）
+!hci_ws/src/hci_perception/hci_perception/models/face_detection_yunet_2023mar.onnx
+!hci_ws/src/hci_common/hci_common/data/sample_face.jpg
+
+# ===== ROS 2 编译产物 =====
+hci_ws/build/
+hci_ws/install/
+hci_ws/log/
+
+# ===== Python 与测试 =====
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+
+# ===== 编辑器 / 系统 =====
+# VS Code：只提交仓库统一的设置和推荐扩展，其余（个人设置、调试配置）不提交
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+.DS_Store
